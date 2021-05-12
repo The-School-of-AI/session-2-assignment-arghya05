@@ -1,12 +1,12 @@
-# KINDLY GO THROUGH TEST FILE TO UNDERSTAND
 from typing import List
 import time
 import gc
 import sys
-# Here in this code we will be leaking memory because we are creating cyclic reference.
+
+# Here in this code we will be leaking memory because we are creating cyclic reference. 
 # Find that we are indeed making cyclic references.
 # Eventually memory will be released, but that is currently not happening immediately.
-# We have added a function called "clear_memory" but it is not able to do it's job. Fix it.
+# We have added a function called "clear_memory" but it is not able to do it's job. Fix it. 
 # Refer to test_clear_memory Test in test_session2.py to see how we're crudely finding that
 # this code is sub-optimal.
 class Something(object):
@@ -17,14 +17,16 @@ class Something(object):
     def __repr__(self):
         return 'Something class is called'
 
+
 class SomethingNew(object):
 
     def __init__(self, i: int = 0, something: Something = None):
         super().__init__()
         self.i = i
-        self.something = something    
+        self.something = something
     def __repr__(self):
         return 'Something class is called'
+
 
 def add_something(collection: List[Something], i: int):
     something = Something()
@@ -39,7 +41,7 @@ def clear_memory(collection: List[Something]):
     # here we have explicity called gc.collect as we are 
     # aware about the fact that there are cyclic refernces in our
     # program which are stored in the list. Therefore it will be missed
-    # by the python Memory manager.
+    # by the python Memory manager. 
     collection.clear()
     gc.collect()
 
@@ -57,13 +59,14 @@ def critical_function():
 
 # DO NOT CHANGE THIS PROGRAM
 def compare_strings_old(n):
-    a = sys.intern('a long string that is not intered' * 200)
-    b = sys.intern('a long string that is not intered' * 200)
-    char_set = set(a)
+    a = 'a long string that is not intered' * 200
+    b = 'a long string that is not intered' * 200
     for i in range(n):
-        if a is b:
+        if a == b:
             pass
-        if 'd' in char_set:
+    char_list = list(a)
+    for i in range(n):
+        if 'd' in char_list:
             pass
 
 # YOU NEED TO CHANGE THIS PROGRAM
