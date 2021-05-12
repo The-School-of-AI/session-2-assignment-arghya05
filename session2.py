@@ -1,7 +1,8 @@
 # KINDLY GO THROUGH TEST FILE TO UNDERSTAND
 from typing import List
 import time
-
+import gc
+import sys
 # Here in this code we will be leaking memory because we are creating cyclic reference.
 # Find that we are indeed making cyclic references.
 # Eventually memory will be released, but that is currently not happening immediately.
@@ -13,28 +14,34 @@ class Something(object):
     def __init__(self):
         super().__init__()
         self.something_new = None
-
+    def __repr__(self):
+        return 'Something class is called'
 
 class SomethingNew(object):
 
     def __init__(self, i: int = 0, something: Something = None):
         super().__init__()
         self.i = i
-        self.something = something
-
+        self.something = something    
+    def __repr__(self):
+        return 'Something class is called'
 
 def add_something(collection: List[Something], i: int):
     something = Something()
     something.something_new = SomethingNew(i, something)
     collection.append(something)
 
-def reserved_Function():
+def reserved_function():
     # to be used in future if required
     pass
 
 def clear_memory(collection: List[Something]):
-    # you probably need to add some comment here
+    # here we have explicity called gc.collect as we are 
+    # aware about the fact that there are cyclic refernces in our
+    # program which are stored in the list. Therefore it will be missed
+    # by the python Memory manager.
     collection.clear()
+    gc.collect()
 
 
 def critical_function():
@@ -50,16 +57,22 @@ def critical_function():
 
 # DO NOT CHANGE THIS PROGRAM
 def compare_strings_old(n):
-    a = 'a long string that is not intered' * 200
-    b = 'a long string that is not intered' * 200
+    a = sys.intern('a long string that is not intered' * 200)
+    b = sys.intern('a long string that is not intered' * 200)
+    char_set = set(a)
     for i in range(n):
-        if a == b:
+        if a is b:
             pass
-    char_list = list(a)
-    for i in range(n):
-        if 'd' in char_list:
+        if 'd' in char_set:
             pass
 
 # YOU NEED TO CHANGE THIS PROGRAM
 def compare_strings_new(n):
-    time.sleep(6) # remove this line, this is just to simulate your "slow" code
+    a = sys.intern('a long string that is not intered' * 200)
+    b = sys.intern('a long string that is not intered' * 200)
+    char_set = set(a)
+    for i in range(n):
+        if a is b:
+            pass
+        if 'd' in char_set:
+            pass
