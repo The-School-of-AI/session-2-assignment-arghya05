@@ -10,7 +10,7 @@ Object Mutability and Interning
 * Deadline is 24th July 11:59 PM. 
 * More Commits = Less points. 1st commit is free, post which every addition commit leads to a absolute drop of 10% score (i.e. if you make 21 commits, you'll score negative 1000 points)
 * Once done, copy your test results (exactly the content shown below) and paste as text as your assignment submission (your repos will be manually checked as well, and in case of mis-representation you'd get -2000pts))
-![output_format](Assets/output_result_format.png)
+
 
 <h2 align="center"> Assignment Solution </h2>
 
